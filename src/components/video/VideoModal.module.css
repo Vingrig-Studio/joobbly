@@ -1,0 +1,75 @@
+.trigger {
+  min-width: 58px;
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.62);
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  position: relative;
+  color: white;
+  background: rgba(4,28,48,.42);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.trigger:hover { transform: translateY(-2px); background: rgba(255,255,255,.18); border-color: white; }
+.trigger:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 4px; }
+.play { width: 0; height: 0; margin-left: 4px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 11px solid currentColor; }
+.label { width: max-content; position: absolute; left: calc(100% + 13px); color: rgba(255,255,255,.9); font-size: 13px; font-weight: 500; white-space: nowrap; }
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  background: rgba(2,12,20,.82);
+  backdrop-filter: blur(12px);
+  animation: fadeIn .2s ease both;
+}
+.dialog {
+  width: min(1040px, 100%);
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 28px;
+  color: #fff;
+  background: #071925;
+  box-shadow: 0 30px 100px rgba(0,0,0,.48);
+  animation: riseIn .28s cubic-bezier(.2,.8,.2,1) both;
+}
+.heading { padding: 2px 2px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.heading span { color: #7dd3fc; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.heading h2 { margin: 7px 0 0; color: #fff; font-size: clamp(24px,3vw,38px); font-weight: 500; letter-spacing: -.035em; }
+.heading button {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 999px;
+  color: white;
+  background: rgba(255,255,255,.08);
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+}
+.heading button:hover { background: rgba(255,255,255,.18); }
+.heading button:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 3px; }
+.dialog video { display: block; width: 100%; max-height: min(68vh,680px); border-radius: 18px; background: #020b11; }
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(16px) scale(.985); } }
+@media (max-width: 760px) {
+  .trigger { width: 52px; height: 52px; min-width: 52px; }
+  .label { display: none; }
+  .backdrop { padding: 10px; }
+  .dialog { padding: 12px; border-radius: 20px; }
+  .heading { padding: 5px 4px 14px; }
+  .heading h2 { font-size: 23px; line-height: 1.14; }
+  .heading button { width: 40px; height: 40px; flex-basis: 40px; }
+  .dialog video { border-radius: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trigger, .backdrop, .dialog { animation: none; transition: none; }
+}

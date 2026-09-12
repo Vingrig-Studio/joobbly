@@ -1,0 +1,10 @@
+{
+  "name": "Joobby",
+  "short_name": "Joobby",
+  "description": "Смены, задачи и контроль работы — в одном приложении.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fa",
+  "theme_color": "#0369a1",
+  "icons": [{ "src": "/brand/joobby-mark.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

@@ -1,0 +1,134 @@
+.scene {
+  margin: 0 16px;
+  padding: 76px 24px 82px;
+  border-radius: 32px;
+  color: #102d40;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(14,165,233,.12),transparent 28%),
+    linear-gradient(180deg,#f1f7fa 0%,#e8f2f7 100%);
+}
+.inner { width: min(980px,100%); margin: 0 auto; text-align: center; }
+.heading { margin: 0 auto 42px; }
+.heading h2 {
+  margin: 14px 0 20px;
+  color: #102d40;
+  font-size: clamp(42px,5.4vw,76px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -.048em;
+}
+.heading > p:last-child {
+  max-width: 790px;
+  margin: 0 auto;
+  color: #526a7a;
+  font-size: 18px;
+  line-height: 1.55;
+}
+.card {
+  width: min(720px,100%);
+  margin: 0 auto;
+  padding: 42px 48px 36px;
+  overflow: hidden;
+  position: relative;
+  color: #173345;
+  text-align: left;
+  border: 1px solid #d7e4ea;
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: 0 22px 60px rgba(20,55,75,.12);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background: linear-gradient(90deg,#0284c7,#075985);
+}
+.badge {
+  display: inline-flex;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: #075985;
+  background: #dff2fc;
+  font-size: 14px;
+  font-weight: 600;
+}
+.price {
+  margin: 28px 0 16px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: 10px;
+}
+.price > span { font-size: 28px; font-weight: 500; }
+.price strong { color: #0e293b; font-size: clamp(82px,9vw,122px); font-weight: 500; line-height: .88; letter-spacing: -.065em; }
+.price sup { align-self: flex-start; margin-top: 7px; color: #0e293b; font-size: 44px; line-height: 1; }
+.price small { color: #617383; font-size: 16px; }
+.description { max-width: 570px; margin: 0 0 24px; color: #596f7f; font-size: 17px; line-height: 1.55; }
+.features { margin: 0 0 30px; padding: 0; display: grid; gap: 14px; list-style: none; }
+.features li { display: flex; align-items: center; gap: 12px; color: #3e5666; font-size: 16px; line-height: 1.45; }
+.features li span {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #087443;
+  background: #d9f8e6;
+  font-size: 14px;
+  font-weight: 700;
+}
+.cta {
+  min-height: 58px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #fff;
+  background: #0478b5;
+  font-size: 16px;
+  font-weight: 600;
+  transition: transform .2s ease, background .2s ease;
+}
+.cta:hover { transform: translateY(-2px); background: #036493; }
+.cta:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 3px; }
+.note { display: block; margin-top: 13px; color: #6d7f8c; font-size: 12px; text-align: center; }
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 28px;
+  padding-bottom: 5px;
+  color: #075985;
+  border-bottom: 1px solid rgba(7,89,133,.34);
+  font-size: 16px;
+  font-weight: 600;
+}
+.more span { transition: transform .2s ease; }
+.more:hover span { transform: translateX(4px); }
+:global(html[data-theme="dark"]) .scene {
+  color: #eef7fb;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(14,165,233,.16),transparent 30%),
+    linear-gradient(180deg,#092232 0%,#071923 100%);
+}
+:global(html[data-theme="dark"]) .heading h2 { color: #f2f8fb; }
+:global(html[data-theme="dark"]) .heading > p:last-child { color: #adc2ce; }
+:global(html[data-theme="dark"]) .more { color: #8ed8fb; border-color: rgba(142,216,251,.38); }
+@media (max-width: 760px) {
+  .scene { margin: 0 8px; padding: 48px 14px 52px; border-radius: 24px; }
+  .heading { margin-bottom: 28px; }
+  .heading h2 { margin-top: 12px; font-size: 38px; line-height: 1.06; }
+  .heading > p:last-child { font-size: 16px; }
+  .card { padding: 30px 22px 25px; border-radius: 22px; }
+  .price { column-gap: 7px; }
+  .price > span { font-size: 22px; }
+  .price strong { font-size: 78px; }
+  .price sup { font-size: 32px; }
+  .price small { width: 100%; margin: 10px 0 0 42px; font-size: 14px; }
+  .description { font-size: 15px; }
+  .features li { align-items: flex-start; font-size: 15px; }
+  .cta { min-height: 54px; font-size: 15px; }
+}

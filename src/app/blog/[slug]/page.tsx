@@ -1,0 +1,12 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { CTA } from "@/components/sections/CTA";
+import { EditorialImage } from "@/components/ui/EditorialImage";
+import { articles } from "@/content/blog";
+import { site } from "@/config/site";
+
+type Props={params:Promise<{slug:string}>};
+export function generateStaticParams(){return articles.map(({slug})=>({slug}));}
+export async function generateMetadata({params}:Props):Promise<Metadata>{const {slug}=await params;const article=articles.find((x)=>x.slug===slug);return article?{title:article.title,description:article.description,alternates:{canonical:`/blog/${slug}/`}}:{};}
+export default async function ArticlePage({params}:Props){const {slug}=await params;const article=articles.find((x)=>x.slug===slug);if(!article)notFound();const schema={"@context":"https://schema.org","@type":"Article",headline:article.title,description:article.description,image:new URL(article.image,site.url).toString(),datePublished:article.date,timeRequired:`PT${article.readingMinutes}M`,author:{"@type":"Organization",name:"Joobby"},publisher:{"@type":"Organization",name:"Joobby"},mainEntityOfPage:`${site.url}/blog/${article.slug}/`};return <><section className="page-hero article-hero"><div className="container page-hero-grid"><div><Breadcrumbs items={[{label:"Блог",href:"/blog/"},{label:article.category}]} /><p className="eyebrow">{article.category}</p><h1>{article.title}</h1><p className="lead">{article.description}</p><p className="article-meta-line">{new Intl.DateTimeFormat("ru-RU",{dateStyle:"long"}).format(new Date(article.date))} · {article.readingMinutes} мин чтения · Команда Joobby</p></div><EditorialImage className="page-hero-photo" src={article.image} alt={`Обложка статьи: ${article.title}`} priority /></div></section><article className="section-tight section-white article-body"><div className="container article"><p className="article-intro">{article.description}</p>{article.sections.map((section)=><section key={section.title}><h2>{section.title}</h2>{section.paragraphs.map((paragraph)=><p key={paragraph}>{paragraph}</p>)}{section.bullets?.length ? <ul>{section.bullets.map((bullet)=><li key={bullet}>{bullet}</li>)}</ul> : null}{section.note ? <aside className="article-note"><strong>Важно</strong><p>{section.note}</p></aside> : null}</section>)}</div></article><CTA /><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}} /></>;}

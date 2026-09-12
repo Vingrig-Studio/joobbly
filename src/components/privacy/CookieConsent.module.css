@@ -1,0 +1,59 @@
+.banner {
+  position: fixed;
+  z-index: 90;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  width: min(calc(100% - 36px), 1180px);
+  margin-inline: auto;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 26px;
+  background: rgba(8, 20, 29, .96);
+  color: #f5f5f2;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .34);
+  backdrop-filter: blur(18px);
+}
+
+.copy strong { display: block; margin-bottom: 6px; font-size: 1rem; }
+.copy p { max-width: 760px; margin: 0; color: #aebdc7; font-size: .85rem; line-height: 1.5; }
+.copy a { color: #8fd9fc; text-decoration: underline; text-underline-offset: 3px; }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.actions button {
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  color: #f5f5f2;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.actions button:hover { background: rgba(255, 255, 255, .16); }
+.actions button:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 3px; }
+
+@media (max-width: 760px) {
+  .banner {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: calc(100% - 20px);
+    padding: 18px;
+    border-radius: 22px;
+  }
+  .actions { grid-template-columns: 1fr; }
+  .actions button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner { backdrop-filter: none; }
+}

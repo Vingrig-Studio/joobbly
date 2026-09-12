@@ -1,0 +1,3 @@
+import { ImageResponse } from "next/og";
+export const size={width:1200,height:630};export const contentType="image/png";
+export default function Image(){return new ImageResponse(<div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",justifyContent:"space-between",padding:70,background:"#0369a1",color:"white",fontFamily:"sans-serif"}}><div style={{display:"flex",alignItems:"center",gap:20,fontSize:42,fontWeight:800}}><div style={{width:70,height:70,borderRadius:18,background:"white",color:"#0369a1",display:"flex",alignItems:"center",justifyContent:"center"}}>J</div>Joobby</div><div style={{fontSize:88,fontWeight:800,lineHeight:1.02,maxWidth:1000}}>Shift work. Connected.</div><div style={{fontSize:27,color:"#d8f56b"}}>joobby.ru</div></div>,size);}

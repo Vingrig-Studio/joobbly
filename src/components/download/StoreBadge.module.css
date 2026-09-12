@@ -1,0 +1,46 @@
+.badge {
+  width: min(185px, 100%);
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 8px 13px;
+  border: 1px solid #0c4a6e;
+  border-radius: 14px;
+  background: #f8fbfd;
+  color: #10243b;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  border-color: #0369a1;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+}
+
+.badge:focus-visible {
+  outline: 3px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+.icon {
+  display: grid;
+  width: 32px;
+  height: 36px;
+  place-items: center;
+}
+
+.icon svg { width: 100%; height: 100%; }
+.copy { display: grid; min-width: 0; line-height: 1; }
+.copy small { margin-bottom: 3px; font-size: 9px; font-weight: 650; letter-spacing: .015em; white-space: nowrap; }
+.copy strong { font-size: 20px; font-weight: 650; letter-spacing: -.045em; white-space: nowrap; }
+
+@media (max-width: 380px) {
+  .badge { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge { transition: none; }
+}
