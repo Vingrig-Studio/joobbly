@@ -1,6 +1,5 @@
-import { TrackedAnchor } from "@/components/ui/TrackedAnchor";
+import Link from "next/link";
 import { pricing } from "@/config/pricing";
-import { site } from "@/config/site";
 import styles from "./HomePricing.module.css";
 
 const features = [
@@ -32,9 +31,7 @@ export function HomePricing() {
         <ul className={styles.features}>
           {features.map((feature) => <li key={feature}><span aria-hidden="true">✓</span>{feature}</li>)}
         </ul>
-        <TrackedAnchor className={styles.cta} href={site.registrationUrl} target="_blank" rel="noopener noreferrer" goal="pricing_cta_click">
-          Попробовать бесплатно
-        </TrackedAnchor>
+        <Link className={styles.cta} href="/pricing/">Смотреть тарифы</Link>
         <small className={styles.note}>{pricing.trialDays} дней бесплатно · без банковской карты</small>
       </article>
     </div>

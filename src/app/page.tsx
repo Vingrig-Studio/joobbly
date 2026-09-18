@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { ProductVisual } from "@/components/product/ProductVisual";
 import { HomeCapabilities } from "@/components/sections/HomeCapabilities";
 import { HomePricing } from "@/components/sections/HomePricing";
@@ -15,13 +14,13 @@ const faq = [{ question: "Что считается точкой?", answer: "О�
 export default function Home() {
     return <div className={styles.home}>
     <section className={styles.hero} data-home-hero aria-labelledby="hero-title"><Image className={styles.heroImage} src="/hero/joobby-hero-person.png" alt="Сотрудница проверяет смену и задачи в приложении Joobby" fill priority sizes="100vw" unoptimized/><div className={styles.shade}/><div className={styles.heroContent}><p className={styles.kicker}>Joobby</p><h1 id="hero-title">Порядок в каждой смене</h1><p>График смен, задачи, чек-листы и контроль команды
-    </p><div className={styles.heroActions}><TrialButton className="button" source="hero">Попробовать</TrialButton><VideoModal /></div><small>30 дней бесплатно · без банковской карты</small></div><div className={styles.heroFoot}><span></span><Link href="/download/">Скачать приложение ↗</Link></div></section>
+    </p><div className={styles.heroActions}><TrialButton className="button" source="hero">Попробовать</TrialButton><VideoModal /></div><small>30 дней бесплатно · без банковской карты</small></div></section>
     <section className={styles.replaces} aria-labelledby="replaces-title"><div className={styles.replacesInner}><p id="replaces-title">Заменяет связку</p><ul><li>Excel</li><li>WhatsApp</li><li>Бумажные чек-листы</li><li>Отдельные приложения</li></ul></div></section>
     <section id="how-it-works" className={styles.workflow}><div className={styles.sectionHeading}><div><p className={styles.kicker}>01 / Как это работает</p><h2>Два взгляда.<br />Одна рабочая смена.</h2></div><p>Переключите роль и отметьте задачу. Посмотрите, как результат появляется у руководителя.</p></div><ProductVisual /><div className={styles.stepLine}><div><b>01</b><span>Менеджер публикует график</span></div><div><b>02</b><span>Сотрудник выполняет задачи</span></div><div><b>03</b><span>Руководитель видит результат</span></div></div></section>
     <HomeCapabilities />
     <section id="business" className="section solutions-home-section"><div className="container"><div className="section-head"><p className="eyebrow">Для вашего бизнеса</p><h2>Разные команды.<br />Понятный порядок работы.</h2><p className="lead">От кофейни до производства — выберите сценарий своей команды.</p></div><IndustrySwitcher /></div></section>
     <HomePricing />
-    <section className={styles.faq}><div><p className={styles.kicker}>Перед стартом</p><h2>Есть вопросы?</h2><p>Здесь главное. Если ваш случай сложнее — обсудим его лично.</p><Link href="/contacts/">Связаться с командой ↗</Link></div><FAQ items={faq}/></section>
+    <section className={styles.faq}><div><p className={styles.kicker}>Перед стартом</p><h2>Есть вопросы?</h2><p>Здесь главное. Если ваш случай сложнее — обсудим его лично.</p><TrialButton className={styles.faqCta} source="faq">Обсудить с командой ↗</TrialButton></div><FAQ items={faq}/></section>
     <CTA />
     </div>;
 }

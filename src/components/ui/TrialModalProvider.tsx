@@ -16,11 +16,20 @@ import { track } from "@/lib/analytics";
 import styles from "./TrialModalProvider.module.css";
 
 type SubmitState = "idle" | "submitting" | "success" | "error" | "rate-limit";
-type TrialSource = "header" | "hero" | "mobile-menu" | "industry" | "pricing" | "email-request";
-type TrialMode = "phone" | "email";
+export type LeadSource =
+  | "header"
+  | "hero"
+  | "industry"
+  | "pricing"
+  | "contacts"
+  | "cta"
+  | "faq"
+  | "app-store"
+  | "google-play"
+  | "legacy-download";
 
 type TrialContextValue = {
-  openTrial: (source: TrialSource, trigger: HTMLButtonElement, plan?: string, mode?: TrialMode) => void;
+  openTrial: (source: LeadSource, trigger?: HTMLButtonElement, plan?: string) => void;
 };
 
 const TrialContext = createContext<TrialContextValue | null>(null);
@@ -41,26 +50,37 @@ function formatPhone(value: string) {
 export function TrialModalProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [locations, setLocations] = useState("");
   const [state, setState] = useState<SubmitState>("idle");
   const [started, setStarted] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("");
-  const [mode, setMode] = useState<TrialMode>("phone");
+  const [source, setSource] = useState<LeadSource>("hero");
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const closeModal = useCallback(() => setOpen(false), []);
 
-  const openTrial = useCallback((source: TrialSource, trigger: HTMLButtonElement, plan?: string, nextMode: TrialMode = "phone") => {
-    triggerRef.current = trigger;
+  const openTrial = useCallback((nextSource: LeadSource, trigger?: HTMLButtonElement, plan?: string) => {
+    triggerRef.current = trigger ?? null;
     setState("idle");
+    setStarted(false);
     setSelectedPlan(plan ?? "");
-    setMode(nextMode);
+    setSource(nextSource);
     setOpen(true);
-    track(source === "hero" ? "hero_start_free_click" : source === "industry" ? "industry_trial_click" : source === "pricing" ? "pricing_cta_click" : source === "email-request" ? "email_request_click" : "header_start_free_click");
+    track("lead_form_open", { source: nextSource, ...(plan ? { plan } : {}) });
   }, []);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("lead") !== "download") return;
+    const frame = window.requestAnimationFrame(() => {
+      url.searchParams.delete("lead");
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+      openTrial("legacy-download");
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [openTrial]);
 
   useEffect(() => {
     if (!open) return;
@@ -128,7 +148,6 @@ export function TrialModalProvider({ children }: { children: ReactNode }) {
       if (!response.ok) throw new Error("Lead endpoint rejected request");
       setState("success");
       setPhone("");
-      setEmail("");
       setLocations("");
       track("demo_form_submit_success");
     } catch {
@@ -154,9 +173,9 @@ export function TrialModalProvider({ children }: { children: ReactNode }) {
           <button type="button" onClick={closeModal}>Понятно</button>
         </div> : <>
           <div className={styles.heading}>
-            <p>{mode === "email" ? "Запрос по электронной почте" : selectedPlan ? "Выбранный план" : "30 дней бесплатно"}</p>
-            <h2 id="trial-title">{mode === "email" ? "Запросить Joobby" : "Попробовать Joobby"}</h2>
-            <span>{mode === "email" ? "Оставьте email и количество точек — отправим условия подключения и поможем выбрать удобный старт." : selectedPlan ? `Вы выбрали «${selectedPlan}». Оставьте телефон — поможем подключить команду.` : "Оставьте телефон — поможем подключить команду и спокойно начать работу."}</span>
+            <p>{selectedPlan ? "Выбранный план" : "30 дней бесплатно"}</p>
+            <h2 id="trial-title">Попробовать Joobby</h2>
+            <span>{selectedPlan ? `Вы выбрали «${selectedPlan}». Оставьте телефон — поможем подключить команду.` : "Оставьте телефон — поможем подключить команду."}</span>
           </div>
           <form className={styles.form} onSubmit={submit} onFocus={() => {
             if (!started) {
@@ -164,20 +183,12 @@ export function TrialModalProvider({ children }: { children: ReactNode }) {
               track("demo_form_start");
             }
           }}>
-            <input type="hidden" name="business" value={mode === "email" ? "Запрос условий по электронной почте" : selectedPlan ? `Выбранный план: ${selectedPlan}` : "Заявка на пробный период"} />
+            <input type="hidden" name="business" value={selectedPlan ? `Выбранный план: ${selectedPlan}` : "Заявка на пробный период"} />
             <input type="hidden" name="locations" value={locations || "Не указано"} />
+            <input type="hidden" name="source" value={source} />
             <label className={styles.phoneField}>
-              <span>{mode === "email" ? "Электронная почта" : "Телефон"}</span>
-              {mode === "email" ? <input
-                name="contact"
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                placeholder="name@company.ru"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-              /> : <input
+              <span>Телефон</span>
+              <input
                 name="contact"
                 type="tel"
                 inputMode="tel"
@@ -187,10 +198,10 @@ export function TrialModalProvider({ children }: { children: ReactNode }) {
                 onChange={(event) => setPhone(formatPhone(event.target.value))}
                 minLength={18}
                 required
-              />}
+              />
             </label>
             <fieldset className={styles.locationField}>
-              <legend>Сколько у вас точек {mode === "phone" && <span>(необязательно)</span>}</legend>
+              <legend>Сколько у вас точек <span>(необязательно)</span></legend>
               <div>{locationOptions.map((option) => <button
                 key={option}
                 className={locations === option ? styles.selected : ""}
@@ -204,14 +215,13 @@ export function TrialModalProvider({ children }: { children: ReactNode }) {
               <span>Согласен на обработку персональных данных в соответствии с <Link href="/privacy/" target="_blank">политикой конфиденциальности</Link></span>
             </label>
             <button className={styles.submit} type="submit" disabled={state === "submitting"}>
-              {state === "submitting" ? "Отправляем…" : mode === "email" ? "Запросить по электронной почте" : "Попробовать бесплатно"}
+              {state === "submitting" ? "Отправляем…" : "Попробовать бесплатно"}
             </button>
-            <p className={styles.note}>{mode === "email" ? "Ответим на почту в течение рабочего дня." : "Перезвоним в течение рабочего дня."}</p>
+            <p className={styles.note}>Перезвоним в течение рабочего дня.</p>
             {(state === "error" || state === "rate-limit") && <p className={styles.error} role="alert">
               {state === "rate-limit" ? "Слишком много попыток. Попробуйте ещё раз немного позже." : "Не получилось отправить заявку. Проверьте соединение или напишите на info@joobby.ru."}
             </p>}
           </form>
-          <div className={styles.invited}>Вас уже пригласили в команду? <Link href="/download/" onClick={closeModal}>Скачайте приложение</Link></div>
         </>}
       </div>
     </div>}
@@ -224,7 +234,6 @@ export function TrialButton({
   inactive = false,
   onOpen,
   plan,
-  mode = "phone",
   source,
 }: {
   children?: ReactNode;
@@ -232,8 +241,7 @@ export function TrialButton({
   inactive?: boolean;
   onOpen?: () => void;
   plan?: string;
-  mode?: TrialMode;
-  source: TrialSource;
+  source: LeadSource;
 }) {
   const context = useContext(TrialContext);
   if (!context) throw new Error("TrialButton must be used inside TrialModalProvider");
@@ -246,7 +254,7 @@ export function TrialButton({
     tabIndex={inactive ? -1 : undefined}
     onClick={(event) => {
       onOpen?.();
-      context.openTrial(source, event.currentTarget, plan, mode);
+      context.openTrial(source, event.currentTarget, plan);
     }}
   >{children}</button>;
 }

@@ -22,6 +22,5 @@ export const navigation = [
   { label: "Решения", href: "/#business" },
   { label: "Тарифы", href: "/pricing/" },
   { label: "Блог", href: "/blog/" },
-  { label: "Контакты", href: "/contacts/" },
-  { label: "Скачать", href: "/download/" }
+  { label: "Контакты", href: "/contacts/" }
 ] as const;

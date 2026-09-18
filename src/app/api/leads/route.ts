@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const allowedFields = ["name", "contact", "business", "locations", "message", "consent", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
+const allowedFields = ["name", "contact", "business", "locations", "message", "consent", "source", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
 
 export async function POST(request: Request) {
   const endpoint = process.env.JOOBBY_LEAD_ENDPOINT;

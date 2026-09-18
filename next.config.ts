@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
       { source: "/products", destination: "/product/", permanent: true },
       { source: "/industries", destination: "/#business", permanent: true },
       { source: "/solutions", destination: "/#business", permanent: true },
-      { source: "/solutions/:path*", destination: "/#business", permanent: true }
+      { source: "/solutions/:path*", destination: "/#business", permanent: true },
+      { source: "/download/:path*", destination: "/?lead=download", permanent: true }
     ];
   }
 };

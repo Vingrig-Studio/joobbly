@@ -50,7 +50,6 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); letter-spacing: -.03em; }
 .header-trial { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px); transition: opacity .24s, visibility .24s, transform .24s, background .2s, box-shadow .2s; }
 .header-trial.is-visible { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
 .lang { color: var(--muted); font-size: .8rem; font-weight: 800; }
-.login { font-weight: 650; }
 .menu-toggle { display: none; width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 14px; background: white; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
 .menu-toggle span { width: 21px; height: 2px; background: var(--ink); transition: transform .2s; }
 .mobile-menu { display: none; }
